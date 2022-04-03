@@ -1,0 +1,16 @@
+<h1>My Todo List</h1>
+
+<table>
+    <tr>
+        <th>Tasks</th>
+    </tr>
+    {% for tasks in task %} <!--writing code in django in html requires parentheses -->
+    <tr>
+        <td>{{tasks.title}}</td>
+        <td><a href="{% url 'tasks-detail' tasks.id %}">View</a> </td>
+    </tr>
+    {% empty %}
+    <h3>No tasks in list</h3>
+    <a href="">Add New Task</a>
+    {% endfor %}
+</table>
