@@ -32,6 +32,7 @@ class TaskUpdate(UpdateView):
     fields = "__all__"
     success_url = reverse_lazy('task')
 
+
 class TaskDelete(DeleteView):
     model = Task
     context_object_name = 'task'
