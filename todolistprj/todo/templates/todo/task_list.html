@@ -5,6 +5,14 @@
     <div>
         <h1>Hello {{ request.user|title }}</h1>
         <h3> You have <i>{{ count }} incomplete task{{ count|pluralize:'s' }}</i></h3>
+
+        <div class="header-bar">
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}/">
+            Share on Facebook
+        </a>
+</div>
+
+
     </div>
     {% if request.user.is_authenticated %}
     <a href="{% url 'logout' %}">Logout</a>
@@ -30,7 +38,6 @@
             <i><s><a href="{%url 'tasks-update' tasks.id%}">{{ tasks }}</a></s></i>
         </div>
         <a class="delete-link" href="{% url 'tasks-delete' tasks.id%}">&#215;</a>
-
         {% else %}
         <div class="task-title">
             <div class="task-incomplete-icon"></div>
@@ -45,23 +52,4 @@
     <a href="{% url 'task-create'%}">Add New Task</a>
     {% endfor %}
 </div>
-
-    <!--
- <table>
-    <tr>
-        <th>Tasks</th>
-    </tr>
-    {% for tasks in task %}
-    <tr>
-        <td>{{tasks.id}} - {{tasks.title}}</td>
-        <td><a href="{% url 'tasks-detail' tasks.id%}">View</a> </td>
-        <td><a href="{% url 'task-create'%}">Add</a> </td>
-        <td><a href="{% url 'tasks-update' tasks.id%}">Edit</a>
-        <td><a href="{% url 'tasks-delete' tasks.id%}">Delete</a> </td>
-    </tr>
-    {% empty %}
-    <h3>No tasks in list</h3>
-    <a href="{% url 'task-create'%}">Add New Task</a>
-    {% endfor %}
-</table> -->
 {% endblock content %}
