@@ -1,17 +1,17 @@
 # Create your views here.
 # Class-based views
 
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.views.generic.list import ListView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.contrib.auth.views import LoginView
 from django.views.generic.edit import FormView
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.views.generic.list import ListView
+
 from .models import Task
 
 
@@ -26,7 +26,7 @@ class TaskList(LoginRequiredMixin, ListView):
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
-            context['task'] = context['task'].filter(title__icontains = search_input)
+            context['task'] = context['task'].filter(title__icontains=search_input)
             context['search_input'] = search_input
         return context
 
@@ -45,6 +45,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):  # displays from to create tod
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(TaskCreate, self).form_valid(form)
+
 
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
@@ -74,7 +75,7 @@ class RegisterPage(FormView):
     success_url = reverse_lazy('task')
 
     def form_valid(self, form):
-        user=form.save()
+        user = form.save()
         if user is not None:
             login(self.request, user)
         return super(RegisterPage, self).form_valid(form)
